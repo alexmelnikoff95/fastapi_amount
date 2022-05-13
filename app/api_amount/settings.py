@@ -1,4 +1,5 @@
 from pydantic import BaseSettings
+from functools import lru_cache
 
 
 class Settings(BaseSettings):
@@ -8,7 +9,7 @@ class Settings(BaseSettings):
     database_url: str
 
 
-settings = Settings(
-    _env_file='.env',
-    _env_file_encoding='utf-8',
-)
+@lru_cache()
+def settings():
+    return Settings(_env_file='.env',
+                    _env_file_encoding='utf-8', )
