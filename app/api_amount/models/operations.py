@@ -7,8 +7,8 @@ from pydantic import BaseModel
 
 
 class OperationKind(str, Enum):
-    INCOME = 'income'
-    OUTCOME = 'outcome'
+    INCOME = 'income' '''заработано'''
+    OUTCOME = 'outcome' '''потрачено'''
 
 
 class Operation(BaseModel):
@@ -16,6 +16,9 @@ class Operation(BaseModel):
     kind: OperationKind
     amount: Decimal
     description: Optional[str]
+
+    class Config:
+        orm_mode = True
 
 
 class OperationCreate(Operation):
