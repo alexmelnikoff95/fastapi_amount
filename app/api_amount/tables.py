@@ -14,6 +14,7 @@ Base = declarative_base()
 
 
 class User(Base):
+    '''Поле User в БД'''
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -23,6 +24,7 @@ class User(Base):
 
 
 class Operation(Base):
+    '''Описание в БД операций '''
     __tablename__ = 'operations'
 
     id = Column(Integer, primary_key=True)
