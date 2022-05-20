@@ -7,9 +7,7 @@ from ..models.operations import Operation, OperationKind, OperationCreate, Opera
 
 from ..services.operations import OperationService
 
-router = APIRouter(
-    prefix='/operations',
-)
+router = APIRouter(prefix='/operations')
 
 
 @router.get('/', response_model=List[Operation])
