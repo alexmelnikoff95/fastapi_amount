@@ -7,8 +7,6 @@ from sqlalchemy import (
     String,
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-
 
 Base = declarative_base()
 
@@ -33,5 +31,3 @@ class Operation(Base):
     kind = Column(String)
     amount = Column(Numeric(10, 2))
     description = Column(String, nullable=True)
-
-    user = relationship('User', backref='operations')
