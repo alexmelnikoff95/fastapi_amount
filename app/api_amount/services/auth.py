@@ -13,30 +13,28 @@ from ..database import get_session
 
 oauth = OAuth2PasswordBearer(tokenUrl='/auth/sign-in/')
 
+'''Метод для чтения токена'''
+
 
 def get_current_user(token: str = Depends(oauth)) -> models.User:
     return AuthService.validate(token)
-
-
-'''Метод для чтения токена'''
 
 
 class AuthService:
 
     @classmethod
     def verify_password(cls, plain_password: str, hashed_password: str) -> bool:
+        '''метод для создания чистого пароля и хэша'''
         return bcrypt.verify(plain_password, hashed_password)
-
-    '''метод для создания чистого пароля и хэша'''
 
     @classmethod
     def hash_password(cls, password: str) -> str:
+        '''Метод для хэширования пароля'''
         return bcrypt.hash(password)
-
-    '''Метод для хэширования пароля'''
 
     @classmethod
     def validate(cls, token: str) -> models.User:
+        '''Валидатор пользователя'''
         exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='no valid',
                                   headers={'WWW-Authenticate': 'bearer'}, )
 
@@ -54,11 +52,9 @@ class AuthService:
 
         return user
 
-    '''Валидатор пользователя'''
-
     @classmethod
     def create_token(cls, user: tables.User) -> models.Token:
-
+        '''Метод создания токена для пользователя'''
         user_data = models.User.from_orm(user)
 
         now = datetime.utcnow()
@@ -75,7 +71,7 @@ class AuthService:
 
         return models.Token(access_token=token)
 
-    '''Метод создания токена для пользователя'''
+    '''Методы для работы с БД'''
 
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
@@ -105,5 +101,3 @@ class AuthService:
             raise exception
 
         return self.create_token(user)
-
-        '''Методы для работы с БД'''
